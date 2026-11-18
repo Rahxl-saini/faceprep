@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration Form Validation</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            width: 350px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #ccc;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 7px;
+            margin-bottom: 5px;
+            box-sizing: border-box;
+        }
+
+        .error {
+            color: red;
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+
+        .success {
+            color: green;
+            text-align: center;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: black;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Create Account</h2>
+
+    <form id="registerForm">
+
+        <label>Full name</label>
+        <input type="text" id="name">
+        <div class="error" id="nameError"></div>
+
+        <label>Email</label>
+        <input type="text" id="email">
+        <div class="error" id="emailError"></div>
+
+        <label>Password</label>
+        <input type="password" id="password">
+        <div class="error" id="passwordError"></div>
+
+        <label>Confirm password</label>
+        <input type="password" id="confirmPassword">
+        <div class="error" id="confirmError"></div>
+
+        <button type="submit">Register</button>
+
+        <div id="successMessage" class="success"></div>
+
+    </form>
+
+</div>
+
+<script>
+
+    document.getElementById("registerForm")
+    .addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+        // Get input values
+        let name = document.getElementById("name").value.trim();
+        let email = document.getElementById("email").value.trim();
+        let password = document.getElementById("password").value;
+        let confirmPassword = document.getElementById("confirmPassword").value;
+
+        // Clear previous errors
+        document.getElementById("nameError").innerText = "";
+        document.getElementById("emailError").innerText = "";
+        document.getElementById("passwordError").innerText = "";
+        document.getElementById("confirmError").innerText = "";
+        document.getElementById("successMessage").innerText = "";
+
+        let isValid = true;
+
+        // Name validation
+        if (name.length < 3) {
+            document.getElementById("nameError").innerText =
+            "Name must be at least 3 characters.";
+            isValid = false;
+        }
+
+        // Email validation
+        let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+        if (!emailPattern.test(email)) {
+            document.getElementById("emailError").innerText =
+            "Enter a valid email, e.g. name@example.com";
+            isValid = false;
+        }
+
+        // Password validation
+        let passwordPattern = /^(?=.*\d).{6,}$/;
+
+        if (!passwordPattern.test(password)) {
+            document.getElementById("passwordError").innerText =
+            "Use 6+ characters including a number.";
+            isValid = false;
+        }
+
+        // Confirm password validation
+        if (password !== confirmPassword) {
+            document.getElementById("confirmError").innerText =
+            "Passwords do not match.";
+            isValid = false;
+        }
+
+        // Success message
+        if (isValid) {
+            document.getElementById("successMessage").innerText =
+            "Registration successful! Welcome, " + name + ".";
+        }
+
+    });
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Restaurant Bill Splitter</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .container {
+            background: white;
+            padding: 25px;
+            width: 350px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #ccc;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            background: green;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #error {
+            color: red;
+            margin-top: 15px;
+        }
+
+        #result {
+            margin-top: 20px;
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Restaurant Bill Splitter</h2>
+
+    <label>Bill Amount (Rs.)</label>
+    <input type="number" id="bill" placeholder="Enter bill amount">
+
+    <label>Select Tip</label>
+    <select id="tip">
+        <option value="0">0%</option>
+        <option value="5">5%</option>
+        <option value="10">10%</option>
+        <option value="15">15%</option>
+    </select>
+
+    <label>Number of People</label>
+    <input type="number" id="people" value="1">
+
+    <button id="calculate">Calculate</button>
+
+    <p id="error"></p>
+
+    <div id="result" style="display:none;">
+        <p>Tip Amount: Rs. <span id="tipAmount"></span></p>
+        <p>Total Bill: Rs. <span id="totalBill"></span></p>
+        <p>Per Person: Rs. <span id="perPerson"></span></p>
+    </div>
+
+</div>
+
+<script>
+
+    document.getElementById("calculate").addEventListener("click", function() {
+
+        // Get input values
+        let bill = parseFloat(document.getElementById("bill").value);
+        let tip = parseFloat(document.getElementById("tip").value);
+        let people = parseInt(document.getElementById("people").value);
+
+        let error = document.getElementById("error");
+        let result = document.getElementById("result");
+
+        // Hide previous result
+        result.style.display = "none";
+        error.innerHTML = "";
+
+        // Validation
+        if (isNaN(bill) || bill <= 0 || isNaN(people) || people < 1) {
+            error.innerHTML = "Please enter a valid bill amount and number of people!";
+            return;
+        }
+
+        // Calculate tip
+        let tipAmount = bill * tip / 100;
+
+        // Calculate total bill
+        let totalBill = bill + tipAmount;
+
+        // Calculate amount per person
+        let perPerson = totalBill / people;
+
+        // Display output
+        document.getElementById("tipAmount").innerHTML = tipAmount.toFixed(2);
+
+        document.getElementById("totalBill").innerHTML = totalBill.toFixed(2);
+
+        document.getElementById("perPerson").innerHTML = perPerson.toFixed(2);
+
+        result.style.display = "block";
+
+    });
+
+</script>
+
+</body>
+</html>
